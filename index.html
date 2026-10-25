@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b12">
+<title>AVENGERS: DOOMSDAY Countdown</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px; color: #f4f1e9;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background:
+    radial-gradient(ellipse at 50% 35%, #38201e 0%, transparent 48%),
+    radial-gradient(ellipse at 20% 80%, #17263b 0%, transparent 45%),
+    #090b12;
+}
+main { width: 100%; max-width: 480px; text-align: center; }
+.eyebrow { color: #d9b66f; letter-spacing: 4px; font-size: 11px; }
+h1 {
+  font-size: clamp(38px, 10vw, 60px);
+  letter-spacing: 3px; margin: 22px 0 0;
+  text-shadow: 0 0 28px #b53d3544;
+}
+h2 {
+  margin: 0 0 28px; color: #e15a49;
+  letter-spacing: 8px; font-size: 25px;
+}
+.rule { height: 1px; background: linear-gradient(90deg,transparent,#d9b66f,transparent); }
+.label { color: #b8bbc7; font-size: 11px; letter-spacing: 3px; margin: 24px 0 14px; }
+.grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+.unit {
+  padding: 18px 6px; border: 1px solid #ffffff1c;
+  border-radius: 10px; background: #ffffff08;
+}
+.num {
+  color: #f0ce83; font-size: clamp(36px, 10vw, 54px);
+  font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.unit-name { color: #b8bbc7; font-size: 10px; letter-spacing: 3px; }
+.date { margin-top: 25px; color: #d9b66f; letter-spacing: 3px; font-size: 12px; }
+.note { margin-top: 30px; color: #777d8b; font-size: 11px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">MARVEL STUDIOS PRESENTS</div>
+  <h1>AVENGERS</h1>
+  <h2>DOOMSDAY</h2>
+  <div class="rule"></div>
+  <div class="label">COUNTDOWN TO THEATRICAL RELEASE</div>
+  <div class="grid">
+    <div class="unit"><div class="num" id="days">---</div><div class="unit-name">DAYS</div></div>
+    <div class="unit"><div class="num" id="hours">--</div><div class="unit-name">HOURS</div></div>
+    <div class="unit"><div class="num" id="minutes">--</div><div class="unit-name">MINUTES</div></div>
+    <div class="unit"><div class="num" id="seconds">--</div><div class="unit-name">SECONDS</div></div>
+  </div>
+  <div class="date">DECEMBER 18 · 2026</div>
+  <div class="note" id="message">THE COUNTDOWN HAS BEGUN</div>
+</main>
+<script>
+const target = new Date("2026-12-18T00:00:00+09:00").getTime();
+const pad = n => String(n).padStart(2, "0");
+
+function update() {
+  const diff = target - Date.now();
+  const message = document.getElementById("message");
+
+  if (diff <= 0) {
+    ["days","hours","minutes","seconds"].forEach(id =>
+      document.getElementById(id).textContent = "00"
+    );
+    message.textContent = "DOOMSDAY IS HERE";
+    return;
+  }
+
+  const total = Math.floor(diff / 1000);
+  document.getElementById("days").textContent =
+    String(Math.floor(total / 86400)).padStart(3, "0");
+  document.getElementById("hours").textContent =
+    pad(Math.floor(total % 86400 / 3600));
+  document.getElementById("minutes").textContent =
+    pad(Math.floor(total % 3600 / 60));
+  document.getElementById("seconds").textContent =
+    pad(total % 60);
+}
+update();
+setInterval(update, 1000);
+</script>
+</body>
+</html>
